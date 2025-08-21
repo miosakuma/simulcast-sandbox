@@ -552,7 +552,8 @@
             const otherCodecs = RTCRtpReceiver.getCapabilities("video").codecs.filter(
               (c) => !c.mimeType.includes(codec.value)
             );
-            const codecPreferences = wantedCodecs.concat(otherCodecs);
+            //const codecPreferences = wantedCodecs.concat(otherCodecs);
+            const codecPreferences = wantedCodecs;
             // コーデック配列を画面に出力
             const codecListDiv = document.getElementById('codecList');
             codecListDiv.textContent = 'setCodecPreferences codec list: ' + codecPreferences.map(c => c.mimeType + (c.sdpFmtpLine ? ' ' + c.sdpFmtpLine : '')).join(', ');
