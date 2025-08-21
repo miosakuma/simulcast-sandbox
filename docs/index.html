@@ -322,7 +322,8 @@
         </div>
       </details>
     </div>
-    <div id="div"></div>
+  <div id="div"></div>
+  <div id="codecList" style="margin:10px 0; font-size:1em; color:#333;"></div>
 
     <script>
       const constraints = {
@@ -545,14 +546,17 @@
         pc2.ontrack = async (e) => {
           if (e.transceiver && e.transceiver.setCodecPreferences) {
             // Move the desired codecs in front
-
             const wantedCodecs = RTCRtpReceiver.getCapabilities(
               'video'
             ).codecs.filter((c) => c.mimeType.includes(codec.value));
             const otherCodecs = RTCRtpReceiver.getCapabilities("video").codecs.filter(
               (c) => !c.mimeType.includes(codec.value)
             );
-            e.transceiver.setCodecPreferences(wantedCodecs.concat(otherCodecs));
+            const codecPreferences = wantedCodecs.concat(otherCodecs);
+            // コーデック配列を画面に出力
+            const codecListDiv = document.getElementById('codecList');
+            codecListDiv.textContent = 'setCodecPreferences codec list: ' + codecPreferences.map(c => c.mimeType + (c.sdpFmtpLine ? ' ' + c.sdpFmtpLine : '')).join(', ');
+            e.transceiver.setCodecPreferences(codecPreferences);
           }
           try {
             if (splitLayer.value == 'merged') {
